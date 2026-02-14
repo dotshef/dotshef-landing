@@ -14,9 +14,40 @@ body {
   font-family: "Pretendard Variable", "Segoe UI", sans-serif;
 }
 
+/* 3x3 Block Stack */
+.block-stack-3x3 .bs-tile {
+  transform-box: fill-box;
+  transform-origin: center bottom;
+  transform: translateY(6px) scaleY(0.05);
+  opacity: 0;
+  animation: bs-pop var(--bs-duration) infinite;
+}
+
+/* 타일마다 딜레이를 다르게 */
+.block-stack-3x3 .bs-tile-0 { animation-delay: calc(var(--bs-duration) * 0.00); }
+.block-stack-3x3 .bs-tile-1 { animation-delay: calc(var(--bs-duration) * 0.06); }
+.block-stack-3x3 .bs-tile-2 { animation-delay: calc(var(--bs-duration) * 0.12); }
+.block-stack-3x3 .bs-tile-3 { animation-delay: calc(var(--bs-duration) * 0.18); }
+.block-stack-3x3 .bs-tile-4 { animation-delay: calc(var(--bs-duration) * 0.24); }
+.block-stack-3x3 .bs-tile-5 { animation-delay: calc(var(--bs-duration) * 0.30); }
+.block-stack-3x3 .bs-tile-6 { animation-delay: calc(var(--bs-duration) * 0.36); }
+.block-stack-3x3 .bs-tile-7 { animation-delay: calc(var(--bs-duration) * 0.42); }
+.block-stack-3x3 .bs-tile-8 { animation-delay: calc(var(--bs-duration) * 0.48); }
+
+/* 쌓이는 느낌: 위로 "올라오며" 펼쳐짐, 살짝 오버슈트 */
+@keyframes bs-pop {
+  0%   { opacity: 0; transform: translateY(8px) scaleY(0.05); }
+  12%  { opacity: 1; transform: translateY(0px) scaleY(1.08); }
+  20%  { opacity: 1; transform: translateY(0px) scaleY(1.0); }
+  78%  { opacity: 1; transform: translateY(0px) scaleY(1.0); }
+  100% { opacity: 0; transform: translateY(0px) scaleY(1.0); }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .section-fx {
-    display: none;
+  .block-stack-3x3 .bs-tile {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
   }
 }
 
