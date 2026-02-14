@@ -1,26 +1,29 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-brand-yellow: #FFD600;
+  --color-brand-black: #000000;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  font-family: "Pretendard Variable", "Segoe UI", sans-serif;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .section-fx {
+    display: none;
+  }
+}
+
+@font-face {
+  font-family: 'Pretendard Variable';
+  font-weight: 45 920;
+  font-style: normal;
+  font-display: swap;
+  src: url('/font/PretendardVariable.woff2') format('woff2-variations');
 }
