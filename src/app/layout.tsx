@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Dotshef",
+  title: "DotShef",
   description: "세상에 필요한 맛있는 소프트웨어",
 };
 
