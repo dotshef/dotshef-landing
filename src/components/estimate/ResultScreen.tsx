@@ -42,7 +42,7 @@ export default function ResultScreen({ answers, onReset }: Props) {
           className="w-full rounded-xl bg-brand-black py-4 text-base font-bold text-brand-yellow
                      transition-opacity hover:opacity-80 cursor-pointer"
         >
-          실제 견적 요청하기
+          견적 요청하기
         </button>
         <button
           type="button"
@@ -51,7 +51,7 @@ export default function ResultScreen({ answers, onReset }: Props) {
                      text-base font-bold text-brand-black transition-all
                      hover:bg-brand-black hover:text-brand-yellow cursor-pointer"
         >
-          다시 견적 내기
+          다시 예상 견적 내보기
         </button>
       </div>
 

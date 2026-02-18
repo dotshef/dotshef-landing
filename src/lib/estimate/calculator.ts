@@ -38,7 +38,7 @@ export function calculateEstimate(state: AnswerState): EstimateResult {
 
   // 3. ADDON 합산
   if (state.addons && state.addons.length > 0) {
-    const addonTable = priceTable.ADDON as Record<string, { label: string; price: { min: number; max: number } }>
+    const addonTable = priceTable.ADDON as Record<string, { price: { min: number; max: number } }>
     for (const addonKey of state.addons) {
       const addon = addonTable[addonKey]
       if (addon) {

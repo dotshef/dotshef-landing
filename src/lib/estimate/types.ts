@@ -21,12 +21,13 @@ export type InputType =
 export interface SelectOption {
   value: string
   label: string
-  description?: string
+  comment?: string
 }
 
 export interface FlowStep {
   id: StepId
   question: string
+  comment?: string
   inputType: InputType
   field: keyof AnswerState | null
   options?: SelectOption[]

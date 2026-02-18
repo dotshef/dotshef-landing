@@ -39,27 +39,28 @@ export default function EstimateWizard() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col bg-brand-black pt-16">
-      <div className="mx-auto flex w-full max-w-lg flex-1 flex-col justify-center px-6 py-12">
-        {/* 진행 표시 */}
-        {!isResult && (
-          <div className="mb-6">
-            <div className="mb-2 flex items-center justify-between">
-              <span className="text-xs font-bold text-brand-yellow/50">
-                {stepIndex} / {total}
-              </span>
+    <main className="flex min-h-screen flex-col bg-brand-black">
+      <div className="mx-auto flex w-full flex-1 flex-col justify-center px-6 py-12">
+        <div className="mx-auto w-full max-w-xl">
+          {/* 진행 표시 */}
+          {!isResult && (
+            <div className="mb-6">
+              <div className="mb-2 flex items-center justify-between">
+                <span className="text-xs font-bold text-brand-yellow/50">
+                  {stepIndex} / {total}
+                </span>
+              </div>
+              <div className="h-1 w-full overflow-hidden rounded-full bg-brand-yellow/20">
+                <div
+                  className="h-full rounded-full bg-brand-yellow transition-all duration-300"
+                  style={{ width: `${Math.min((stepIndex / total) * 100, 100)}%` }}
+                />
+              </div>
             </div>
-            <div className="h-1 w-full overflow-hidden rounded-full bg-brand-yellow/20">
-              <div
-                className="h-full rounded-full bg-brand-yellow transition-all duration-300"
-                style={{ width: `${Math.min((stepIndex / total) * 100, 100)}%` }}
-              />
-            </div>
-          </div>
-        )}
+          )}
 
-        {/* 카드 */}
-        <div className="rounded-2xl bg-brand-yellow p-8">
+          {/* 카드 */}
+          <div className="rounded-2xl bg-brand-yellow p-14">
           {isResult ? (
             <>
               <h2 className="mb-6 text-2xl font-extrabold text-brand-black">
@@ -81,6 +82,7 @@ export default function EstimateWizard() {
               </>
             )
           )}
+          </div>
         </div>
       </div>
     </main>

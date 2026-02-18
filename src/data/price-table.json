@@ -1,24 +1,18 @@
 {
   "BASE": {
     "LANDING": {
-      "label": "랜딩 페이지(마케팅용)",
-      "description": "외부 링크, 반응형, SEO 기본",
       "price": {
         "min": 200000,
         "max": 300000
       }
     },
     "CMS": {
-      "label": "콘텐츠형(CMS)",
-      "description": "게시물 추가/수정/삭제, 로그인, 관리자 기능",
       "price": {
         "min": 500000,
         "max": 700000
       }
     },
     "SAAS": {
-      "label": "데이터관리 SaaS",
-      "description": "로그인 권한 별 액션 분리, 데이터 취합",
       "price": {
         "min": 500000,
         "max": 800000
@@ -27,28 +21,24 @@
   },
   "UNIT": {
     "CMS_POST_TYPE": {
-      "label": "CMS 게시물 종류",
       "price": {
         "min": 100000,
         "max": 200000
       }
     },
     "CMS_ATTACHMENT": {
-      "label": "게시물 파일 첨부 가능",
       "price": {
         "min": 200000,
         "max": 200000
       }
     },
     "SAAS_POST_TYPE": {
-      "label": "SaaS 데이터 종류",
       "price": {
         "min": 100000,
         "max": 200000
       }
     },
     "SAAS_ROLE_TYPE": {
-      "label": "SaaS 권한 종류",
       "price": {
         "min": 100000,
         "max": 200000
@@ -57,14 +47,12 @@
   },
   "ADDON": {
     "CONTACT_FORM": {
-      "label": "문의 입력 폼(이메일)",
       "price": {
         "min": 100000,
         "max": 150000
       }
     },
     "MAP": {
-      "label": "지도",
       "price": {
         "min": 100000,
         "max": 250000

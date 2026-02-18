@@ -10,17 +10,17 @@ export const FLOW_STEPS: FlowStep[] = [
       {
         value: "LANDING",
         label: "랜딩 페이지",
-        description: "외부 링크, 반응형, SEO 기본",
+        comment: "외부 링크, 반응형, SEO 기본",
       },
       {
         value: "CMS",
         label: "콘텐츠형(CMS)",
-        description: "게시물 추가/수정/삭제, 로그인, 관리자 기능",
+        comment: "게시물 추가/수정/삭제, 로그인, 관리자 기능",
       },
       {
         value: "SAAS",
         label: "데이터관리 SaaS",
-        description: "로그인 권한 별 액션 분리, 데이터 취합",
+        comment: "로그인 권한 별 액션 분리, 데이터 취합",
       },
     ],
   },
@@ -32,13 +32,15 @@ export const FLOW_STEPS: FlowStep[] = [
   },
   {
     id: "CMS_ATTACHMENT",
-    question: "게시물에 파일 첨부가 필요한가요?",
+    question: "게시물에 파일 첨부(이미지 등)가 필요한가요?",
+    comment: "쇼핑몰 사진 렌더링도 파일 첨부에 해당합니다.",
     inputType: "boolean",
     field: "hasAttachment",
   },
   {
     id: "CMS_WYSIWYG",
     question: "리치 에디터(WYSIWYG)가 필요한가요?",
+    comment: "WYSIWYG란 블로그 에디터와 같이 폰트, 굵기, 크기, 정렬 등을 변경할 수 있습니다.",
     inputType: "boolean",
     field: "needsWysiwyg",
   },

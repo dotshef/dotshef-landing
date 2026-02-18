@@ -128,7 +128,8 @@ function NumberInput({
           value={value}
           onChange={(e) => setValue(clamp(Number(e.target.value)))}
           className="w-24 rounded-xl border-2 border-brand-black bg-transparent py-3 text-center
-                     text-2xl font-extrabold text-brand-black focus:outline-none"
+                     text-2xl font-extrabold text-brand-black focus:outline-none
+                     [appearance:textfield] [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
         />
         <button
           type="button"
