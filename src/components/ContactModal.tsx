@@ -55,7 +55,7 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
     setStatus("sending");
 
     try {
-      const res = await fetch("/api/contact", {
+      const res = await fetch("/api/send", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ name, email, message }),
@@ -77,10 +77,8 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
   return (
     <dialog
       ref={dialogRef}
-      className="fixed inset-0 m-auto w-full max-w-xl bg-transparent p-4 backdrop:bg-black/70"
-      onClick={(e) => {
-        if (e.target === dialogRef.current) handleClose();
-      }}
+      className="fixed inset-0 m-auto w-full max-w-lg bg-transparent p-4 backdrop:bg-black/70"
+      onClick={(e) => e.stopPropagation()}
     >
       <div className="overflow-hidden rounded-2xl bg-brand-yellow">
         {/* Header — 검정 바 */}
@@ -116,7 +114,9 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
                   onChange={(e) => setName(e.target.value)}
                   disabled={sending}
                   placeholder="이름"
-                  className="w-full rounded-lg border border-brand-black/20 bg-brand-yellow-light px-4 py-2.5 text-brand-black placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-brand-black disabled:opacity-50"
+                  className="w-full rounded-lg border border-brand-black/20 bg-brand-yellow-light px-4 py-2.5
+                  text-brand-black placeholder:text-neutral-400 focus:outline-none
+                  focus:border-brand-black focus:border-2 disabled:opacity-50"
                 />
               </div>
 
@@ -132,7 +132,9 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={sending}
                   placeholder="example@email.com"
-                  className="w-full rounded-lg border border-brand-black/20 bg-brand-yellow-light px-4 py-2.5 text-brand-black placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-brand-black disabled:opacity-50"
+                  className="w-full rounded-lg border border-brand-black/20 bg-brand-yellow-light px-4 py-2.5
+                  text-brand-black placeholder:text-neutral-400 focus:outline-none
+                  focus:border-brand-black focus:border-2 disabled:opacity-50"
                 />
               </div>
 
@@ -148,7 +150,9 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
                   onChange={(e) => setMessage(e.target.value)}
                   disabled={sending}
                   placeholder="문의 내용을 입력해 주세요."
-                  className="w-full resize-none rounded-lg border border-brand-black/20 bg-brand-yellow-light px-4 py-2.5 text-brand-black placeholder:text-neutral-400 focus:outline-none focus:ring-2 focus:ring-brand-black disabled:opacity-50"
+                  className="w-full resize-none rounded-lg border border-brand-black/20 bg-brand-yellow-light px-4 py-2.5
+                   text-brand-black placeholder:text-neutral-400 focus:outline-none
+                   focus:border-brand-black focus:border-2 disabled:opacity-50"
                 />
               </div>
 
@@ -163,7 +167,9 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
               <button
                 type="submit"
                 disabled={sending}
-                className="w-full rounded-lg bg-brand-black px-4 py-2.5 font-bold text-brand-yellow transition-opacity hover:opacity-80 disabled:opacity-50"
+                className="w-full rounded-lg bg-brand-black px-4 py-2.5 font-bold
+                text-brand-yellow transition-opacity hover:opacity-80 disabled:opacity-50
+                cursor-pointer"
               >
                 {sending ? "전송 중..." : "제출하기"}
               </button>
