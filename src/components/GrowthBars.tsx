@@ -87,7 +87,7 @@ export default function GrowthBars({
               backgroundColor: color,
               height: `${h * 100}%`,
               transformOrigin: "bottom",
-              transform: show ? "scaleY(1)" : "scaleY(0.02)",
+              transform: show ? "scaleY(1)" : "scaleY(0)",
               transition: show
                 ? `transform ${growMs}ms cubic-bezier(0.34, 1.56, 0.64, 1)`
                 : "none",
