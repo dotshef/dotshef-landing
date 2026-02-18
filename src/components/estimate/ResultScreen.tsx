@@ -26,7 +26,7 @@ export default function RequestScreen({ answers, onReset }: Props) {
         <p className="mb-2 text-base font-bold text-brand-black/70">예상 견적</p>
         {hasCustom ? (
           <p className="text-2xl font-extrabold text-brand-black">
-            예상 견적은 150만원 이상입니다.
+            {formatPrice(result.min)} 이상
           </p>
         ) : (
           <p className="text-2xl font-extrabold text-brand-black">
@@ -42,19 +42,19 @@ export default function RequestScreen({ answers, onReset }: Props) {
       <button
         type="button"
         onClick={handleRequest}
-        className="w-full rounded-xl bg-brand-black py-4 text-base font-bold text-brand-yellow
-                   transition-opacity hover:opacity-80 cursor-pointer"
+        className="w-full rounded-xl border-2 border-brand-black bg-brand-yellow py-4 text-base font-bold text-brand-black
+                   transition-all hover:bg-brand-black hover:text-brand-yellow cursor-pointer"
       >
         견적 요청하기
       </button>
       <button
         type="button"
         onClick={onReset}
-        className="w-full rounded-full border-2 border-brand-black bg-transparent py-4
+        className="w-full rounded-full border-2 border-brand-black bg-brand-yellow py-4
                    text-base font-bold text-brand-black transition-all
                    hover:bg-brand-black hover:text-brand-yellow cursor-pointer mx-auto block"
       >
-        다시 견적 내보기
+        다시 견적 계산
       </button>
     </div>
   )

@@ -71,9 +71,14 @@ export default function EstimatePage() {
             ) : (
               step && (
                 <>
-                  <h2 className="mb-6 text-2xl font-extrabold text-brand-black">
-                    {step.question}
-                  </h2>
+                  <div className="mb-6">
+                    <h2 className="text-2xl font-extrabold text-brand-black">
+                      {step.question}
+                    </h2>
+                    {step.comment && (
+                      <p className="mt-2 text-base text-brand-black/60">{step.comment}</p>
+                    )}
+                  </div>
                   <StepRenderer
                     step={step}
                     answers={answers}

@@ -42,13 +42,13 @@ function SingleSelect({
           key={opt.value}
           type="button"
           onClick={() => onCommit(step.field, opt.value)}
-          className="w-full rounded-xl border-2 border-brand-black bg-brand-black px-5 py-4 text-left
-                     text-brand-yellow transition-all hover:bg-brand-yellow hover:text-brand-black
+          className="w-full rounded-xl border-2 border-brand-black bg-brand-yellow px-5 py-4 text-left
+                     text-brand-black transition-all hover:bg-brand-black hover:text-brand-yellow
                      cursor-pointer"
         >
           <p className="text-base font-bold">{opt.label}</p>
-          {opt.description && (
-            <p className="mt-0.5 text-sm opacity-70">{opt.description}</p>
+          {opt.comment && (
+            <p className="mt-0.5 text-sm opacity-70">{opt.comment}</p>
           )}
         </button>
       ))}
@@ -70,16 +70,16 @@ function BooleanSelect({
       <button
         type="button"
         onClick={() => onCommit(step.field, true)}
-        className="flex-1 rounded-xl border-2 border-brand-black bg-brand-black py-4
-                   text-center text-base font-bold text-brand-yellow
-                   transition-all hover:bg-brand-yellow hover:text-brand-black cursor-pointer"
+        className="flex-1 rounded-xl border-2 border-brand-black bg-brand-yellow py-4
+                   text-center text-base font-bold text-brand-black
+                   transition-all hover:bg-brand-black hover:text-brand-yellow cursor-pointer"
       >
         예
       </button>
       <button
         type="button"
         onClick={() => onCommit(step.field, false)}
-        className="flex-1 rounded-xl border-2 border-brand-black bg-transparent py-4
+        className="flex-1 rounded-xl border-2 border-brand-black bg-brand-yellow py-4
                    text-center text-base font-bold text-brand-black
                    transition-all hover:bg-brand-black hover:text-brand-yellow cursor-pointer"
       >
@@ -117,7 +117,7 @@ function NumberInput({
           type="button"
           onClick={() => setValue((v) => clamp(v - 1))}
           className="flex h-12 w-12 items-center justify-center rounded-xl border-2 border-brand-black
-                     text-2xl font-bold text-brand-black transition-all
+                     bg-brand-yellow text-2xl font-bold text-brand-black transition-all
                      hover:bg-brand-black hover:text-brand-yellow cursor-pointer"
         >
           −
@@ -135,7 +135,7 @@ function NumberInput({
           type="button"
           onClick={() => setValue((v) => v + 1)}
           className="flex h-12 w-12 items-center justify-center rounded-xl border-2 border-brand-black
-                     text-2xl font-bold text-brand-black transition-all
+                     bg-brand-yellow text-2xl font-bold text-brand-black transition-all
                      hover:bg-brand-black hover:text-brand-yellow cursor-pointer"
         >
           +
@@ -144,8 +144,8 @@ function NumberInput({
       <button
         type="button"
         onClick={() => onCommit(step.field, value)}
-        className="w-full rounded-xl bg-brand-black py-4 text-base font-bold text-brand-yellow
-                   transition-opacity hover:opacity-80 cursor-pointer"
+        className="w-full rounded-xl border-2 border-brand-black bg-brand-yellow py-4 text-base font-bold text-brand-black
+                   transition-all hover:bg-brand-black hover:text-brand-yellow cursor-pointer"
       >
         확인
       </button>
@@ -182,11 +182,11 @@ function MultiSelect({
               key={opt.value}
               type="button"
               onClick={() => toggle(opt.value)}
-              className={`flex items-center gap-3 rounded-xl border-2 px-5 py-4 text-left
+              className={`flex items-center gap-3 rounded-xl border-2 border-brand-black px-5 py-4 text-left
                          transition-all cursor-pointer ${
                            checked
-                             ? "border-brand-black bg-brand-black text-brand-yellow"
-                             : "border-brand-black bg-transparent text-brand-black hover:bg-brand-black/10"
+                             ? "bg-brand-black text-brand-yellow"
+                             : "bg-brand-yellow text-brand-black hover:bg-brand-black hover:text-brand-yellow"
                          }`}
             >
               <span
@@ -203,8 +203,8 @@ function MultiSelect({
       <button
         type="button"
         onClick={() => onCommit(step.field, selected)}
-        className="w-full rounded-xl bg-brand-black py-4 text-base font-bold text-brand-yellow
-                   transition-opacity hover:opacity-80 cursor-pointer"
+        className="w-full rounded-xl border-2 border-brand-black bg-brand-yellow py-4 text-base font-bold text-brand-black
+                   transition-all hover:bg-brand-black hover:text-brand-yellow cursor-pointer"
       >
         다음
       </button>
@@ -238,8 +238,8 @@ function TextareaInput({
       <button
         type="button"
         onClick={() => onCommit(step.field, text)}
-        className="w-full rounded-xl bg-brand-black py-4 text-base font-bold text-brand-yellow
-                   transition-opacity hover:opacity-80 cursor-pointer"
+        className="w-full rounded-xl border-2 border-brand-black bg-brand-yellow py-4 text-base font-bold text-brand-black
+                   transition-all hover:bg-brand-black hover:text-brand-yellow cursor-pointer"
       >
         다음
       </button>

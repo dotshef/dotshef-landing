@@ -54,11 +54,6 @@ export function calculateEstimate(state: AnswerState): EstimateResult {
     }
   }
 
-  // 4. FLOOR — customRequirement가 있으면 최소 150만원
-  if (state.customRequirement?.trim()) {
-    min = Math.max(min, CUSTOM_REQUIREMENT_FLOOR)
-  }
-
   return { min, max }
 }
 
