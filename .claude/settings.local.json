@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls \"C:\\\\D\\\\dotshef-website\\\\dotshef\\\\reference\"\" 2>/dev/null; echo \"---\"; test -f \"C:Ddotshef-websitedotshefreferencemodal.md\" && echo \"exists\" || echo \"not exists \")"
+    ]
+  }
+}
