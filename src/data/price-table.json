@@ -2,8 +2,8 @@
   "BASE": {
     "LANDING": {
       "price": {
-        "min": 200000,
-        "max": 300000
+        "min": 100000,
+        "max": 200000
       }
     },
     "CMS": {
@@ -20,6 +20,12 @@
     }
   },
   "UNIT": {
+    "LANDING_SECTION": {
+      "price": {
+        "min": 20000,
+        "max": 40000
+      }
+    },
     "CMS_POST_TYPE": {
       "price": {
         "min": 100000,

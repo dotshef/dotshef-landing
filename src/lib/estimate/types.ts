@@ -2,6 +2,7 @@ export type ProductType = "LANDING" | "CMS" | "SAAS"
 
 export type StepId =
   | "PRODUCT_TYPE"
+  | "LANDING_SECTION_COUNT"
   | "CMS_POST_TYPE_COUNT"
   | "CMS_ATTACHMENT"
   | "CMS_WYSIWYG"
@@ -35,6 +36,7 @@ export interface FlowStep {
 
 export interface AnswerState {
   productType?: ProductType
+  sectionCount?: number
   postTypeCount?: number
   hasAttachment?: boolean
   needsWysiwyg?: boolean

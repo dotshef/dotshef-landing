@@ -10,19 +10,26 @@ export const FLOW_STEPS: FlowStep[] = [
       {
         value: "LANDING",
         label: "랜딩 페이지",
-        comment: "외부 링크, 반응형, SEO 기본",
+        comment: "외부 링크 추가 무제한, 반응형 제작, 기본 SEO 처리",
       },
       {
         value: "CMS",
         label: "콘텐츠형(CMS)",
-        comment: "게시물 추가/수정/삭제, 로그인, 관리자 기능",
+        comment: "게시물 추가/수정/삭제, 관리자만 로그인 가능",
       },
       {
         value: "SAAS",
         label: "데이터관리 SaaS",
-        comment: "로그인 권한 별 액션 분리, 데이터 취합",
+        comment: "유저 초대, 권한 관리, 권한 별 액션 및 조회 기능",
       },
     ],
+  },
+  {
+    id: "LANDING_SECTION_COUNT",
+    question: "전체 섹션의 개수는 몇개인가요?",
+    comment: "섹션이란 페이지에 들어가는 하나의 블록을 의미합니다.",
+    inputType: "number",
+    field: "sectionCount",
   },
   {
     id: "CMS_POST_TYPE_COUNT",
@@ -58,12 +65,12 @@ export const FLOW_STEPS: FlowStep[] = [
   },
   {
     id: "ADDONS",
-    question: "추가 기능이 필요하신가요?",
+    question: "다음 기능이 필요하신가요?",
     inputType: "multi-select",
     field: "addons",
     options: [
-      { value: "CONTACT_FORM", label: "문의 입력 폼(이메일)" },
-      { value: "MAP", label: "지도" },
+      { value: "CONTACT_FORM", label: "문의 입력 폼 -> 이메일 전송" },
+      { value: "MAP", label: "실시간 지도 렌더링" },
     ],
   },
   {

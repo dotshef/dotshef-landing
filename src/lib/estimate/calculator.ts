@@ -15,6 +15,12 @@ export function calculateEstimate(state: AnswerState): EstimateResult {
   }
 
   // 2. UNIT × 수량
+  if (state.productType === "LANDING") {
+    const sectionCount = state.sectionCount ?? 1
+    min += priceTable.UNIT.LANDING_SECTION.price.min * sectionCount
+    max += priceTable.UNIT.LANDING_SECTION.price.max * sectionCount
+  }
+
   if (state.productType === "CMS") {
     const postTypeCount = state.postTypeCount ?? 1
     min += priceTable.UNIT.CMS_POST_TYPE.price.min * postTypeCount

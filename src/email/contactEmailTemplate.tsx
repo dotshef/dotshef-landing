@@ -3,12 +3,14 @@ import * as React from "react";
 interface ContactEmailTemplateProps {
   name: string;
   email: string;
+  phone?: string;
   message: string;
 }
 
 export function ContactEmailTemplate({
   name,
   email,
+  phone,
   message,
 }: ContactEmailTemplateProps) {
   return (
@@ -76,6 +78,31 @@ export function ContactEmailTemplate({
               </a>
             </td>
           </tr>
+          {phone && (
+            <tr>
+              <td
+                style={{
+                  padding: "12px 0",
+                  borderBottom: "1px solid #e5e5e5",
+                  color: "#666666",
+                  width: 80,
+                  verticalAlign: "top",
+                }}
+              >
+                전화번호
+              </td>
+              <td
+                style={{
+                  padding: "12px 0",
+                  borderBottom: "1px solid #e5e5e5",
+                  color: "#000000",
+                  fontWeight: 600,
+                }}
+              >
+                {phone}
+              </td>
+            </tr>
+          )}
         </tbody>
       </table>
 

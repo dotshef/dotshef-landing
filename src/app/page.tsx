@@ -11,7 +11,7 @@ export default function Home() {
       <Header />
 
       <main>
-        {/* Section 1 - Product */}
+        {/* Product Section */}
         <section className="relative flex min-h-screen items-center justify-center overflow-hidden bg-brand-yellow pt-16">
           <SectionFx variant="yellow" />
           <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-12 px-6 md:flex-row md:justify-between">
@@ -24,7 +24,7 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Section 2 - Outsourcing */}
+        {/* Outsourcing Section */}
         <section className="relative flex min-h-screen flex-col items-center justify-center overflow-hidden bg-brand-black px-6 py-24">
           <SectionFx variant="black" />
 
@@ -40,12 +40,20 @@ export default function Home() {
             </div>
 
             {/* 버튼 */}
-            <Link
-              href="/estimate"
-              className="rounded-xl bg-brand-yellow px-8 py-4 text-base font-bold text-brand-black transition-opacity hover:opacity-80"
-            >
-              예상 견적 계산해보기
-            </Link>
+            <div className="flex gap-4">
+              <Link
+                href="/estimate"
+                className="rounded-xl bg-brand-yellow px-8 py-4 text-base font-bold text-brand-black hover:bg-brand-yellow-light"
+              >
+                예상 견적 계산
+              </Link>
+              <Link
+                href="/request"
+                className="rounded-xl border-2 border-brand-yellow px-8 py-4 text-base font-bold text-brand-yellow transition-all duration-300 hover:bg-brand-yellow hover:text-brand-black"
+              >
+                견적 요청하기
+              </Link>
+            </div>
           </div>
         </section>
       </main>

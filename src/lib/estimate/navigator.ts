@@ -5,6 +5,8 @@ export function getNextStepId(currentStepId: StepId, state: AnswerState): StepId
     case "PRODUCT_TYPE":
       if (state.productType === "CMS") return "CMS_POST_TYPE_COUNT"
       if (state.productType === "SAAS") return "SAAS_DATA_KIND_COUNT"
+      return "LANDING_SECTION_COUNT"
+    case "LANDING_SECTION_COUNT":
       return "ADDONS"
     case "CMS_POST_TYPE_COUNT":
       return "CMS_ATTACHMENT"
@@ -28,5 +30,5 @@ export function getNextStepId(currentStepId: StepId, state: AnswerState): StepId
 export function getTotalSteps(productType?: ProductType): number {
   if (productType === "CMS") return 6  // PRODUCT_TYPE → CMS_POST_TYPE_COUNT → CMS_ATTACHMENT → CMS_WYSIWYG → ADDONS → CUSTOM_REQUIREMENT
   if (productType === "SAAS") return 5 // PRODUCT_TYPE → SAAS_DATA_KIND_COUNT → SAAS_ROLE_KIND_COUNT → ADDONS → CUSTOM_REQUIREMENT
-  return 3                             // PRODUCT_TYPE → ADDONS → CUSTOM_REQUIREMENT
+  return 4                             // PRODUCT_TYPE → LANDING_SECTION_COUNT → ADDONS → CUSTOM_REQUIREMENT
 }
