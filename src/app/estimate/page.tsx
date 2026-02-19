@@ -39,7 +39,7 @@ export default function EstimatePage() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col bg-brand-black">
+    <main className="flex min-h-dvh flex-col bg-brand-black">
       <div className="mx-auto flex w-full flex-1 flex-col justify-center px-6 py-12">
         <div className="mx-auto w-full max-w-xl">
           {/* 진행 표시 */}

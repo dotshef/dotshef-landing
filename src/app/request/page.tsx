@@ -54,7 +54,7 @@ export default function RequestPage() {
 
   if (status === "success") {
     return (
-      <main className="flex min-h-screen flex-col items-center justify-center bg-brand-black px-6 py-24">
+      <main className="flex min-h-dvh flex-col items-center justify-center bg-brand-black px-6 py-24">
         <div className="w-full max-w-xl rounded-2xl bg-brand-yellow p-10 text-center">
           <p className="text-2xl font-extrabold text-brand-black">견적 요청이 전송됐어요!</p>
           <p className="mt-3 text-base text-brand-black/70">빠르게 검토 후 연락드리겠습니다.</p>
@@ -71,7 +71,7 @@ export default function RequestPage() {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-brand-black px-6 py-24">
+    <main className="flex min-h-dvh flex-col items-center justify-center bg-brand-black px-6 py-24">
       <div className="w-full max-w-xl">
         <h1 className="mb-8 text-3xl font-extrabold text-brand-yellow">견적 요청하기</h1>
 
