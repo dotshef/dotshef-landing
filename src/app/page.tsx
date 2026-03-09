@@ -42,12 +42,6 @@ export default function Home() {
             {/* 버튼 */}
             <div className="flex gap-4">
               <Link
-                href="/estimate"
-                className="rounded-xl bg-brand-yellow px-8 py-4 text-base font-bold text-brand-black hover:bg-brand-yellow-light"
-              >
-                예상 견적 계산
-              </Link>
-              <Link
                 href="/request"
                 className="rounded-xl border-2 border-brand-yellow px-8 py-4 text-base font-bold text-brand-yellow transition-all duration-300 hover:bg-brand-yellow hover:text-brand-black"
               >
