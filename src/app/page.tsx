@@ -12,8 +12,8 @@ export default function Home() {
 
       <main>
         {/* Product Section */}
-        <section className="relative flex min-h-dvh items-center justify-center overflow-hidden bg-brand-yellow pt-16">
-          <SectionFx variant="yellow" />
+        <section className="relative flex min-h-dvh items-center justify-center overflow-hidden bg-white pt-16">
+          <SectionFx variant="white" />
           <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-12 px-6 md:flex-row md:justify-between">
             <h1 className="text-4xl font-extrabold leading-tight text-brand-black sm:text-5xl md:text-6xl lg:text-7xl">
               당신을 위한
@@ -25,25 +25,25 @@ export default function Home() {
         </section>
 
         {/* Outsourcing Section */}
-        <section className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden bg-brand-black px-6 py-24">
-          <SectionFx variant="black" />
+        <section className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden bg-white px-6 py-24">
+          <SectionFx variant="white" />
 
           <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center gap-16">
             {/* 제목(좌) + GrowthBars(우) */}
             <div className="flex w-full flex-col items-center gap-12 md:flex-row md:justify-center">
-              <h1 className="text-4xl font-extrabold leading-tight text-brand-yellow sm:text-5xl md:text-6xl lg:text-7xl">
+              <h1 className="text-4xl font-extrabold leading-tight text-brand-black sm:text-5xl md:text-6xl lg:text-7xl">
                 당신의 사업에
                 <br />
                 꼭 필요한 웹서비스
               </h1>
-              <GrowthBars width={300} height={220} holdMs={2500} />
+              <GrowthBars width={300} height={220} holdMs={2500} color="var(--color-brand-black)" />
             </div>
 
             {/* 버튼 */}
             <div className="flex gap-4">
               <Link
                 href="/request"
-                className="rounded-xl border-2 border-brand-yellow px-8 py-4 text-base font-bold text-brand-yellow transition-all duration-300 hover:bg-brand-yellow hover:text-brand-black"
+                className="rounded-xl border-2 border-brand-black px-8 py-4 text-base font-bold text-brand-black transition-all duration-300 hover:bg-brand-black hover:text-white"
               >
                 견적 요청하기
               </Link>

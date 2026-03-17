@@ -8,7 +8,8 @@
       "Bash(echo:*)",
       "Bash(powershell.exe -NonInteractive -Command \"\ntry {\n  & ''.specify/scripts/powershell/create-new-feature.ps1'' -Json -Number 1 -ShortName ''estimate-wizard'' ''Define estimate wizard tasks''\n  Write-Host ''SUCCESS''\n} catch {\n  Write-Host \\(''ERROR: '' + $_.Exception.Message\\)\n  Write-Host \\(''STACK: '' + $_.ScriptStackTrace\\)\n}\n\")",
       "Bash(pwsh -NonInteractive -ExecutionPolicy Bypass -File \".specify/scripts/powershell/create-new-feature.ps1\" -Number 1 -ShortName \"estimate-wizard\" \"Define estimate wizard tasks\")",
-      "mcp__ide__getDiagnostics"
+      "mcp__ide__getDiagnostics",
+      "Bash(npx next build:*)"
     ]
   }
 }
