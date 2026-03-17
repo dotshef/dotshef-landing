@@ -1,12 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import dynamic from "next/dynamic";
 import SectionFx from "@/components/SectionFx";
-import BlockStack from "@/components/BlockStack";
 import GrowthBars from "@/components/GrowthBars";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RequestModal from "@/components/RequestModal";
+
+const CubeAnimation = dynamic(
+  () => import("@/components/cube/CubeAnimation"),
+  { ssr: false },
+);
 
 export default function Home() {
   const [requestOpen, setRequestOpen] = useState(false);
@@ -20,12 +25,20 @@ export default function Home() {
         <section className="relative flex min-h-dvh items-center justify-center overflow-hidden bg-white pt-16">
           <SectionFx variant="white" />
           <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-12 px-6 md:flex-row md:justify-between">
-            <h1 className="text-4xl font-extrabold leading-tight text-brand-black sm:text-5xl md:text-6xl lg:text-7xl">
-              당신을 위한
-              <br />
-              맛있는 소프트웨어
-            </h1>
-            <BlockStack size={240} />
+            <div className="md:w-[45%]">
+              <h1 className="text-4xl font-extrabold leading-tight text-brand-black sm:text-5xl md:text-6xl lg:text-7xl">
+                당신을 위한
+                <br />
+                맛있는 소프트웨어
+              </h1>
+            </div>
+            <div className="h-[350px] w-full md:h-[500px] md:w-[55%]">
+              <CubeAnimation
+                width="100%"
+                height="100%"
+                enableParallax={true}
+              />
+            </div>
           </div>
         </section>
 

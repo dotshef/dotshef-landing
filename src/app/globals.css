@@ -5,6 +5,9 @@
   --color-brand-gray-light: #F3F4F6;
   --color-brand-gray-action: #B0B5BC;
   --color-brand-black: #000000;
+  --color-cube-primary: #1A1A1A;
+  --color-cube-secondary: #F5F5F5;
+  --color-cube-accent: #4A90D9;
 }
 
 html {
