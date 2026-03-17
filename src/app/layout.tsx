@@ -3,8 +3,8 @@ import { Analytics } from "@vercel/analytics/next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "DotShef",
-  description: "세상에 필요한 맛있는 소프트웨어",
+  title: "닷셰프",
+  description: "닷셰프 | 원하는 웹서비스를 실현해보세요",
 };
 
 export default function RootLayout({

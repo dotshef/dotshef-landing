@@ -13,7 +13,7 @@ export const CUBIE_GAP = 0.08;
 export const CUBIE_BEVEL = 0.05;
 export const CUBIE_STEP = CUBIE_SIZE + CUBIE_GAP; // 1.08
 
-// --- Cube assembly (3×3×3) ---
+// --- Cube assembly (3x3x3) ---
 export const CUBE_DIM = 3;
 export const TOTAL_CUBIES = 27;
 // offset so the cube is centered at origin
@@ -28,8 +28,8 @@ export function cubiePosition(
   return [x * CUBIE_STEP - HALF, y * CUBIE_STEP - HALF, z * CUBIE_STEP - HALF];
 }
 
-// All 27 slot positions – indexed 0..26
-// Layer layout (from spec §5.3):
+// All 27 slot positions - indexed 0..26
+// Layer layout (from spec):
 //   Layer 1 (top, y=2):  slots 0-8  (labeled 1-9)
 //   Layer 2 (mid, y=1):  slots 9-17 (labeled 10-18)
 //   Layer 3 (bot, y=0):  slots 18-26(labeled 19-27)
@@ -46,8 +46,7 @@ for (let layer = 0; layer < 3; layer++) {
   }
 }
 
-// Assembly order: bottom layer → middle → top (block stacking)
-// Layer 3 (bot, y=0): slots 18-26, Layer 2 (mid, y=1): slots 9-17, Layer 1 (top, y=2): slots 0-8
+// Assembly order: bottom → middle → top (stacking from below)
 // Within each layer: slightly shuffled for natural feel
 export const ASSEMBLY_ORDER = [
   // Bottom layer (y=0)
@@ -58,7 +57,7 @@ export const ASSEMBLY_ORDER = [
   4, 1, 7, 2, 8, 6, 3, 5, 0,
 ];
 
-// --- Block plane (5×6 grid) ---
+// --- Block plane (5x6 grid) ---
 export const PLANE_COLS = 5;
 export const PLANE_ROWS = 6;
 export const PLANE_TOTAL = PLANE_COLS * PLANE_ROWS; // 30
@@ -77,20 +76,28 @@ export function planeBlockPosition(
   ];
 }
 
+// All 30 plane block positions
+export const PLANE_POSITIONS: [number, number, number][] = [];
+for (let row = 0; row < PLANE_ROWS; row++) {
+  for (let col = 0; col < PLANE_COLS; col++) {
+    PLANE_POSITIONS.push(planeBlockPosition(col, row));
+  }
+}
+
 // --- Timing (seconds) ---
 export const TIMING = {
-  phase1Duration: 1.2,
-  blockInterval: 0.18,
+  phase1Duration: 1.0,
+  blockInterval: 0.25,
   extractHighlight: 0.12,
-  extractRise: 0.25,
-  colorFade: 0.2,
-  flightDuration: 1.0,
-  landBounce: 0.15,
+  extractRise: 0.20,
+  colorFade: 0.15,
+  flightDuration: 0.45,
+  landBounce: 0.10,
   refillDelay: 0.4,
-  refillDuration: 0.5,
-  completionGlow: 1.0,
-  planeExit: 0.9,
-  idleRotationPeriod: 10,
+  refillDuration: 0.4,
+  completionGlow: 0.8,
+  planeExit: 0.7,
+  idleRotationPeriod: 8,
 } as const;
 
 // --- Bezier arc helpers ---
@@ -99,12 +106,15 @@ export function createFlightCurve(
   end: THREE.Vector3,
   randomOffset: number,
 ): THREE.CubicBezierCurve3 {
-  // Arc upward from below for a natural bounce-up feel
+  // Parabolic arc: peak at midpoint Y + 2.0~3.0 units
+  const midY = (start.y + end.y) / 2;
+  const peakY = midY + 2.5 + randomOffset * 0.5;
+
   const cp1 = new THREE.Vector3().lerpVectors(start, end, 0.33);
-  cp1.y += 0.5 + randomOffset * 0.3;
+  cp1.y = peakY;
 
   const cp2 = new THREE.Vector3().lerpVectors(start, end, 0.66);
-  cp2.y += 0.3 + randomOffset * 0.2;
+  cp2.y = peakY;
 
   return new THREE.CubicBezierCurve3(start, cp1, cp2, end);
 }
