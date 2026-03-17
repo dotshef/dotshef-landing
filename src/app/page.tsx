@@ -3,7 +3,11 @@
 import { useState } from "react";
 import dynamic from "next/dynamic";
 import SectionFx from "@/components/SectionFx";
-import GrowthBars from "@/components/GrowthBars";
+
+const GrowthBars3D = dynamic(
+  () => import("@/components/growth/GrowthBars3DAnimation"),
+  { ssr: false },
+);
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import RequestModal from "@/components/RequestModal";
@@ -53,7 +57,9 @@ export default function Home() {
                 <br />
                 꼭 필요한 웹서비스
               </h1>
-              <GrowthBars width={300} height={220} holdMs={2500} color="var(--color-brand-black)" />
+              <div className="h-[300px] w-[300px] shrink-0 sm:h-[350px] sm:w-[350px] md:h-[400px] md:w-[400px]">
+                <GrowthBars3D width="100%" height="100%" />
+              </div>
             </div>
 
             {/* 버튼 */}
