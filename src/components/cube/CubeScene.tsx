@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef, useCallback, useState, useEffect } from "react";
+import { useRef, useCallback, useEffect } from "react";
 import { useFrame } from "@react-three/fiber";
 import { RoundedBox } from "@react-three/drei";
 import * as THREE from "three";
@@ -10,54 +10,32 @@ import {
   CUBIE_BEVEL,
   CUBE_SLOTS,
   ASSEMBLY_ORDER,
-  PLANE_COLS,
-  PLANE_ROWS,
   TIMING,
   createFlightCurve,
-  planeBlockPosition,
 } from "./constants";
 
 // ─── Types ───────────────────────────────────────────
-type AnimPhase =
-  | "waiting"
-  | "scene-enter"
-  | "assembling"
-  | "completion"
-  | "plane-exit"
-  | "idle";
+type AnimPhase = "waiting" | "assembling" | "completion" | "idle";
 
-// ─── Shared geometry + materials ─────────────────────
+interface FlyingBlock {
+  meshIndex: number;
+  curve: THREE.CubicBezierCurve3;
+  progress: number;
+  slotIdx: number;
+}
+
+// ─── Shared geometry args ────────────────────────────
 type BoxArgs = [number, number, number];
 const cubieArgs: BoxArgs = [CUBIE_SIZE, CUBIE_SIZE, CUBIE_SIZE];
-const flatArgs: BoxArgs = [CUBIE_SIZE, CUBIE_SIZE * 0.3, CUBIE_SIZE];
 
-// ─── Plane block sub-component ───────────────────────
-function PlaneBlock({
-  col,
-  row,
-  meshRef,
-}: {
-  col: number;
-  row: number;
-  meshRef: React.Ref<THREE.Mesh>;
-}) {
-  const pos = planeBlockPosition(col, row);
-  return (
-    <RoundedBox
-      ref={meshRef}
-      args={flatArgs}
-      radius={CUBIE_BEVEL}
-      smoothness={4}
-      position={pos}
-      receiveShadow
-    >
-      <meshStandardMaterial
-        color={COLORS.secondary}
-        roughness={0.8}
-        metalness={0}
-        transparent
-      />
-    </RoundedBox>
+const MAX_FLYING = 6;
+
+// Spawn from below with random spread
+function randomSpawnPos(): THREE.Vector3 {
+  return new THREE.Vector3(
+    (Math.random() - 0.5) * 5,
+    -5,
+    (Math.random() - 0.5) * 5,
   );
 }
 
@@ -81,7 +59,7 @@ function CubieSlot({
       receiveShadow
     >
       <meshStandardMaterial
-        color={COLORS.primary}
+        color={COLORS.accent}
         roughness={0.7}
         metalness={0}
       />
@@ -97,66 +75,41 @@ export default function CubeScene({
   enableParallax?: boolean;
   reducedMotion?: boolean;
 }) {
-  // Group refs
   const rootRef = useRef<THREE.Group>(null);
   const cubeGroupRef = useRef<THREE.Group>(null);
-  const planeGroupRef = useRef<THREE.Group>(null);
-  const flyingMeshRef = useRef<THREE.Mesh>(null);
 
-  // Mesh refs for individual cubies and plane blocks
   const cubieRefs = useRef<(THREE.Mesh | null)[]>([]);
-  const planeRefs = useRef<(THREE.Mesh | null)[]>([]);
+  const flyingRefs = useRef<(THREE.Mesh | null)[]>([]);
 
-  // All animation state in a single ref to avoid re-renders in useFrame
   const anim = useRef({
     phase: "waiting" as AnimPhase,
-    phaseTimer: 0,
     blockTimer: 0,
     completionTimer: 0,
     assemblyIndex: 0,
-    flyingProgress: 0,
-    flyingCurve: null as THREE.CubicBezierCurve3 | null,
-    flyingSlotIdx: -1,
-    flyingTargetRotation: 0,
+    landedCount: 0,
     hovered: false,
-    planeAssignment: [] as number[],
+    flyingBlocks: [] as FlyingBlock[],
   });
 
-  // Mouse position for parallax
   const mousePos = useRef({ x: 0, y: 0 });
   const smoothRot = useRef({ x: 0, y: 0 });
 
-  // Initialize plane assignment
-  useEffect(() => {
-    const indices = Array.from(
-      { length: PLANE_COLS * PLANE_ROWS },
-      (_, i) => i,
-    );
-    for (let i = indices.length - 1; i > 0; i--) {
-      const j = Math.floor(Math.random() * (i + 1));
-      [indices[i], indices[j]] = [indices[j], indices[i]];
-    }
-    anim.current.planeAssignment = indices;
-  }, []);
-
-  // Reduced motion: show completed cube
+  // Reduced motion: show completed cube immediately
   useEffect(() => {
     if (reducedMotion) {
       anim.current.phase = "idle";
-      // Show all cubies
       cubieRefs.current.forEach((mesh) => {
         if (mesh) mesh.visible = true;
       });
-      // Hide plane
-      if (planeGroupRef.current) planeGroupRef.current.visible = false;
-      if (flyingMeshRef.current) flyingMeshRef.current.visible = false;
+      flyingRefs.current.forEach((mesh) => {
+        if (mesh) mesh.visible = false;
+      });
       return;
     }
-    // Start after short delay
     const timer = setTimeout(() => {
-      anim.current.phase = "scene-enter";
-      if (planeGroupRef.current) planeGroupRef.current.visible = true;
-    }, 200);
+      anim.current.phase = "assembling";
+      anim.current.blockTimer = 0;
+    }, 400);
     return () => clearTimeout(timer);
   }, [reducedMotion]);
 
@@ -171,101 +124,61 @@ export default function CubeScene({
     return () => window.removeEventListener("mousemove", handler);
   }, [enableParallax]);
 
-  // Set cubie ref callback
+  // Ref callbacks
   const setCubieRef = useCallback(
     (index: number) => (el: THREE.Mesh | null) => {
       cubieRefs.current[index] = el;
     },
     [],
   );
-  const setPlaneRef = useCallback(
+  const setFlyingRef = useCallback(
     (index: number) => (el: THREE.Mesh | null) => {
-      planeRefs.current[index] = el;
+      flyingRefs.current[index] = el;
     },
     [],
   );
 
-  // Helper: set material color on a mesh
-  const setMeshColor = (mesh: THREE.Mesh | null, color: string) => {
-    if (!mesh) return;
-    const mat = mesh.material as THREE.MeshStandardMaterial;
-    if (mat && mat.color) mat.color.set(color);
+  // Find a free flying mesh from the pool
+  const getFreeMeshIndex = (): number => {
+    const usedIndices = new Set(
+      anim.current.flyingBlocks.map((b) => b.meshIndex),
+    );
+    for (let i = 0; i < MAX_FLYING; i++) {
+      if (!usedIndices.has(i)) return i;
+    }
+    return -1;
   };
 
-  const setMeshOpacity = (mesh: THREE.Mesh | null, opacity: number) => {
-    if (!mesh) return;
-    const mat = mesh.material as THREE.MeshStandardMaterial;
-    if (mat) mat.opacity = opacity;
-  };
-
-  // ─── Launch a block from plane to cube ─────────────
+  // ─── Launch a block from below ─────────────────────
   const launchBlock = useCallback(() => {
     const a = anim.current;
     if (a.assemblyIndex >= ASSEMBLY_ORDER.length) return;
 
+    const meshIndex = getFreeMeshIndex();
+    if (meshIndex === -1) return;
+
     const slotIdx = ASSEMBLY_ORDER[a.assemblyIndex];
-    const planeIdx =
-      a.planeAssignment[a.assemblyIndex % a.planeAssignment.length];
-
-    // Highlight the plane block
-    setMeshColor(planeRefs.current[planeIdx], COLORS.accent);
-
-    setTimeout(() => {
-      // Remove highlight, hide plane block
-      const planeMesh = planeRefs.current[planeIdx];
-      if (planeMesh) planeMesh.visible = false;
-
-      // Calculate flight curve
-      const col = planeIdx % PLANE_COLS;
-      const row = Math.floor(planeIdx / PLANE_COLS);
-      const startPos = planeBlockPosition(col, row);
-      const start = new THREE.Vector3(
-        startPos[0],
-        startPos[1] + 0.5,
-        startPos[2],
-      );
-      const endPos = CUBE_SLOTS[slotIdx];
-      const end = new THREE.Vector3(endPos[0], endPos[1], endPos[2]);
-      const randomOffset = (Math.random() - 0.5) * 1.0;
-
-      a.flyingCurve = createFlightCurve(start, end, randomOffset);
-      a.flyingProgress = 0;
-      a.flyingSlotIdx = slotIdx;
-      a.flyingTargetRotation = Math.PI * (1 + Math.random());
-
-      if (flyingMeshRef.current) {
-        flyingMeshRef.current.visible = true;
-        flyingMeshRef.current.position.copy(start);
-      }
-
-      // Refill after delay
-      setTimeout(() => {
-        if (planeMesh) {
-          setMeshColor(planeMesh, COLORS.secondary);
-          planeMesh.visible = true;
-          // Animate from below (set position offset, then restore)
-          const origY = planeMesh.position.y;
-          planeMesh.position.y = origY - 0.5;
-          // Simple spring-up via raf
-          const startTime = performance.now();
-          const animateRefill = (now: number) => {
-            const elapsed = (now - startTime) / 1000;
-            const t = Math.min(elapsed / TIMING.refillDuration, 1);
-            // back.out easing approximation
-            const c1 = 1.70158;
-            const c3 = c1 + 1;
-            const eased =
-              1 + c3 * Math.pow(t - 1, 3) + c1 * Math.pow(t - 1, 2);
-            planeMesh.position.y = origY - 0.5 + 0.5 * eased;
-            if (t < 1) requestAnimationFrame(animateRefill);
-          };
-          requestAnimationFrame(animateRefill);
-        }
-      }, TIMING.refillDelay * 1000);
-    }, TIMING.extractHighlight * 1000);
-
     a.assemblyIndex++;
     a.blockTimer = 0;
+
+    const start = randomSpawnPos();
+    const endPos = CUBE_SLOTS[slotIdx];
+    const end = new THREE.Vector3(endPos[0], endPos[1], endPos[2]);
+    const randomOffset = (Math.random() - 0.5) * 1.0;
+
+    const flyMesh = flyingRefs.current[meshIndex];
+    if (flyMesh) {
+      flyMesh.visible = true;
+      flyMesh.position.copy(start);
+      flyMesh.rotation.set(0, 0, 0);
+    }
+
+    a.flyingBlocks.push({
+      meshIndex,
+      curve: createFlightCurve(start, end, randomOffset),
+      progress: 0,
+      slotIdx,
+    });
   }, []);
 
   // ─── useFrame ──────────────────────────────────────
@@ -278,31 +191,14 @@ export default function CubeScene({
       const maxAngle = (12 * Math.PI) / 180;
       const tx = mousePos.current.x * maxAngle;
       const ty = -mousePos.current.y * maxAngle;
-      smoothRot.current.y += (tx - smoothRot.current.y) * 3 * dt;
-      smoothRot.current.x += (ty - smoothRot.current.x) * 3 * dt;
+      smoothRot.current.y += (tx - smoothRot.current.y) * 2 * dt;
+      smoothRot.current.x += (ty - smoothRot.current.x) * 2 * dt;
       rootRef.current.rotation.y = smoothRot.current.y;
       rootRef.current.rotation.x = smoothRot.current.x;
     }
 
-    // ── Phase: scene-enter ──
-    if (a.phase === "scene-enter") {
-      a.phaseTimer += dt;
-      const t = Math.min(a.phaseTimer / TIMING.phase1Duration, 1);
-      // Fade in plane blocks
-      planeRefs.current.forEach((mesh) => setMeshOpacity(mesh, t));
-      if (planeGroupRef.current) {
-        const s = 0.8 + 0.2 * t; // scale 0.8 → 1.0
-        planeGroupRef.current.scale.set(s, s, s);
-      }
-      if (t >= 1) {
-        a.phase = "assembling";
-        a.phaseTimer = 0;
-        a.blockTimer = 0;
-      }
-    }
-
     // ── Phase: assembling ──
-    if (a.phase === "assembling" && !a.flyingCurve) {
+    if (a.phase === "assembling") {
       a.blockTimer += dt;
       if (
         a.blockTimer >= TIMING.blockInterval &&
@@ -312,38 +208,51 @@ export default function CubeScene({
       }
     }
 
-    // ── Animate flying block ──
-    if (a.flyingCurve && flyingMeshRef.current) {
+    // ── Animate ALL flying blocks simultaneously ──
+    const landed: number[] = [];
+    for (let i = 0; i < a.flyingBlocks.length; i++) {
+      const fb = a.flyingBlocks[i];
+      const mesh = flyingRefs.current[fb.meshIndex];
+      if (!mesh) continue;
+
       const speed = dt / TIMING.flightDuration;
-      a.flyingProgress = Math.min(a.flyingProgress + speed, 1);
-      const p = a.flyingProgress;
-      // power2.inOut easing
+      fb.progress = Math.min(fb.progress + speed, 1);
+      const p = fb.progress;
+      // Smooth ease-in-out cubic
       const eased =
-        p < 0.5 ? 2 * p * p : 1 - Math.pow(-2 * p + 2, 2) / 2;
+        p < 0.5
+          ? 4 * p * p * p
+          : 1 - Math.pow(-2 * p + 2, 3) / 2;
 
-      const point = a.flyingCurve.getPoint(eased);
-      flyingMeshRef.current.position.copy(point);
-      flyingMeshRef.current.rotation.y = eased * a.flyingTargetRotation;
+      const point = fb.curve.getPoint(eased);
+      mesh.position.copy(point);
 
-      if (a.flyingProgress >= 1) {
-        // Land
-        flyingMeshRef.current.visible = false;
-        const cubieMesh = cubieRefs.current[a.flyingSlotIdx];
+      if (fb.progress >= 1) {
+        mesh.visible = false;
+        const cubieMesh = cubieRefs.current[fb.slotIdx];
         if (cubieMesh) cubieMesh.visible = true;
-        a.flyingCurve = null;
-
-        // Check if all assembled
-        if (a.assemblyIndex >= ASSEMBLY_ORDER.length) {
-          // Wait a moment for last block to visually settle
-          setTimeout(() => {
-            anim.current.phase = "completion";
-            anim.current.completionTimer = 0;
-          }, 50);
-        }
+        a.landedCount++;
+        landed.push(i);
       }
     }
 
-    // ── Phase: completion ──
+    // Remove landed blocks
+    if (landed.length > 0) {
+      for (let i = landed.length - 1; i >= 0; i--) {
+        a.flyingBlocks.splice(landed[i], 1);
+      }
+
+      // All 27 launched AND all landed → completion
+      if (
+        a.assemblyIndex >= ASSEMBLY_ORDER.length &&
+        a.flyingBlocks.length === 0
+      ) {
+        a.phase = "completion";
+        a.completionTimer = 0;
+      }
+    }
+
+    // ── Phase: completion (bounce only, no color change) ──
     if (a.phase === "completion") {
       a.completionTimer += dt;
       if (a.completionTimer < TIMING.completionGlow) {
@@ -352,33 +261,10 @@ export default function CubeScene({
         if (cubeGroupRef.current) {
           cubeGroupRef.current.scale.set(bounce, bounce, bounce);
         }
-        // Glow: set all cubies to accent
-        cubieRefs.current.forEach((mesh) =>
-          setMeshColor(mesh, COLORS.accent),
-        );
       } else {
-        // Reset
         if (cubeGroupRef.current) {
           cubeGroupRef.current.scale.set(1, 1, 1);
         }
-        cubieRefs.current.forEach((mesh) =>
-          setMeshColor(mesh, COLORS.primary),
-        );
-        a.phase = "plane-exit";
-        a.phaseTimer = 0;
-      }
-    }
-
-    // ── Phase: plane-exit ──
-    if (a.phase === "plane-exit") {
-      a.phaseTimer += dt;
-      const t = Math.min(a.phaseTimer / TIMING.planeExit, 1);
-      planeRefs.current.forEach((mesh) => setMeshOpacity(mesh, 1 - t));
-      if (planeGroupRef.current) {
-        planeGroupRef.current.position.y = -t * 2; // drift down
-      }
-      if (t >= 1) {
-        if (planeGroupRef.current) planeGroupRef.current.visible = false;
         a.phase = "idle";
       }
     }
@@ -390,16 +276,6 @@ export default function CubeScene({
       cubeGroupRef.current.rotation.y += speed * factor * dt;
     }
   });
-
-  // ─── Generate plane grid indices ───────────────────
-  const planeIndices = Array.from(
-    { length: PLANE_COLS * PLANE_ROWS },
-    (_, i) => ({
-      col: i % PLANE_COLS,
-      row: Math.floor(i / PLANE_COLS),
-      index: i,
-    }),
-  );
 
   return (
     <group ref={rootRef}>
@@ -416,45 +292,32 @@ export default function CubeScene({
       {/* Cube assembly */}
       <group
         ref={cubeGroupRef}
-        onPointerEnter={() => {
-          anim.current.hovered = true;
-        }}
-        onPointerLeave={() => {
-          anim.current.hovered = false;
-        }}
+        onPointerEnter={() => { anim.current.hovered = true; }}
+        onPointerLeave={() => { anim.current.hovered = false; }}
       >
         {CUBE_SLOTS.map((pos, i) => (
           <CubieSlot key={`c-${i}`} position={pos} meshRef={setCubieRef(i)} />
         ))}
       </group>
 
-      {/* Flying block (always mounted, toggled via visible) */}
-      <RoundedBox
-        ref={flyingMeshRef}
-        args={cubieArgs}
-        radius={CUBIE_BEVEL}
-        smoothness={4}
-        visible={false}
-        castShadow
-      >
-        <meshStandardMaterial
-          color={COLORS.primary}
-          roughness={0.7}
-          metalness={0}
-        />
-      </RoundedBox>
-
-      {/* Block plane */}
-      <group ref={planeGroupRef} visible={false}>
-        {planeIndices.map(({ col, row, index }) => (
-          <PlaneBlock
-            key={`p-${index}`}
-            col={col}
-            row={row}
-            meshRef={setPlaneRef(index)}
+      {/* Flying block pool */}
+      {Array.from({ length: MAX_FLYING }, (_, i) => (
+        <RoundedBox
+          key={`fly-${i}`}
+          ref={setFlyingRef(i)}
+          args={cubieArgs}
+          radius={CUBIE_BEVEL}
+          smoothness={4}
+          visible={false}
+          castShadow
+        >
+          <meshStandardMaterial
+            color={COLORS.accent}
+            roughness={0.7}
+            metalness={0}
           />
-        ))}
-      </group>
+        </RoundedBox>
+      ))}
     </group>
   );
 }

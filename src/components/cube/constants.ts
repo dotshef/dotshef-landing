@@ -2,7 +2,7 @@ import * as THREE from "three";
 
 // --- Colors ---
 export const COLORS = {
-  primary: "#1A1A1A",
+  primary: "#A0A0A0",
   secondary: "#F5F5F5",
   accent: "#4A90D9",
 } as const;
@@ -46,11 +46,17 @@ for (let layer = 0; layer < 3; layer++) {
   }
 }
 
-// Assembly order from spec §5.3 (1-indexed labels → 0-indexed)
+// Assembly order: bottom layer → middle → top (block stacking)
+// Layer 3 (bot, y=0): slots 18-26, Layer 2 (mid, y=1): slots 9-17, Layer 1 (top, y=2): slots 0-8
+// Within each layer: slightly shuffled for natural feel
 export const ASSEMBLY_ORDER = [
-  5, 4, 6, 7, 9, 10, 1, 2, 3, 15, 12, 8, 14, 11, 13, 16, 18, 17, 27, 19, 25,
-  20, 21, 22, 24, 26, 23,
-].map((n) => n - 1);
+  // Bottom layer (y=0)
+  22, 19, 25, 20, 24, 26, 21, 23, 18,
+  // Middle layer (y=1)
+  13, 10, 16, 11, 17, 15, 12, 14, 9,
+  // Top layer (y=2)
+  4, 1, 7, 2, 8, 6, 3, 5, 0,
+];
 
 // --- Block plane (5×6 grid) ---
 export const PLANE_COLS = 5;
@@ -73,18 +79,18 @@ export function planeBlockPosition(
 
 // --- Timing (seconds) ---
 export const TIMING = {
-  phase1Duration: 1.0,
-  blockInterval: 0.25,
-  extractHighlight: 0.15,
-  extractRise: 0.2,
-  colorFade: 0.15,
-  flightDuration: 0.45,
-  landBounce: 0.1,
-  refillDelay: 0.3,
-  refillDuration: 0.4,
-  completionGlow: 0.8,
-  planeExit: 0.7,
-  idleRotationPeriod: 8,
+  phase1Duration: 1.2,
+  blockInterval: 0.18,
+  extractHighlight: 0.12,
+  extractRise: 0.25,
+  colorFade: 0.2,
+  flightDuration: 1.0,
+  landBounce: 0.15,
+  refillDelay: 0.4,
+  refillDuration: 0.5,
+  completionGlow: 1.0,
+  planeExit: 0.9,
+  idleRotationPeriod: 10,
 } as const;
 
 // --- Bezier arc helpers ---
@@ -93,14 +99,12 @@ export function createFlightCurve(
   end: THREE.Vector3,
   randomOffset: number,
 ): THREE.CubicBezierCurve3 {
-  const mid = new THREE.Vector3().lerpVectors(start, end, 0.5);
-  const arcHeight = 2.5 + randomOffset; // ±0.5 random
-  mid.y += arcHeight;
+  // Arc upward from below for a natural bounce-up feel
+  const cp1 = new THREE.Vector3().lerpVectors(start, end, 0.33);
+  cp1.y += 0.5 + randomOffset * 0.3;
 
-  const cp1 = new THREE.Vector3().lerpVectors(start, mid, 0.66);
-  cp1.y = mid.y * 0.8;
-  const cp2 = new THREE.Vector3().lerpVectors(mid, end, 0.33);
-  cp2.y = mid.y * 0.6;
+  const cp2 = new THREE.Vector3().lerpVectors(start, end, 0.66);
+  cp2.y += 0.3 + randomOffset * 0.2;
 
   return new THREE.CubicBezierCurve3(start, cp1, cp2, end);
 }

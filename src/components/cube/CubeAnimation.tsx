@@ -95,7 +95,7 @@ export default function CubeAnimation({
         frameloop={inView ? "always" : "never"}
         camera={{
           fov: 48,
-          position: [0, 3, 12],
+          position: [0, 2, 8],
           near: 0.1,
           far: 100,
         }}

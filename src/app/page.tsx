@@ -22,17 +22,16 @@ export default function Home() {
 
       <main>
         {/* Product Section */}
-        <section className="relative flex min-h-dvh items-center justify-center overflow-hidden bg-white pt-16">
+        <section className="relative flex min-h-dvh flex-col items-center justify-center overflow-hidden bg-white px-6 py-24">
           <SectionFx variant="white" />
-          <div className="relative z-10 mx-auto flex max-w-7xl flex-col items-center gap-12 px-6 md:flex-row md:justify-between">
-            <div className="md:w-[45%]">
-              <h1 className="text-4xl font-extrabold leading-tight text-brand-black sm:text-5xl md:text-6xl lg:text-7xl">
-                당신을 위한
-                <br />
-                맛있는 소프트웨어
-              </h1>
-            </div>
-            <div className="h-[350px] w-full md:h-[500px] md:w-[55%]">
+
+          <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center gap-12 md:flex-row md:justify-center">
+            <h1 className="text-5xl font-extrabold leading-tight text-brand-black sm:text-6xl md:text-7xl">
+              당신을 위한
+              <br />
+              맛있는 소프트웨어
+            </h1>
+            <div className="h-[300px] w-[300px] shrink-0 sm:h-[350px] sm:w-[350px] md:h-[400px] md:w-[400px]">
               <CubeAnimation
                 width="100%"
                 height="100%"
@@ -49,7 +48,7 @@ export default function Home() {
           <div className="relative z-10 mx-auto flex w-full max-w-7xl flex-col items-center gap-16">
             {/* 제목(좌) + GrowthBars(우) */}
             <div className="flex w-full flex-col items-center gap-12 md:flex-row md:justify-center">
-              <h1 className="text-4xl font-extrabold leading-tight text-brand-black sm:text-5xl md:text-6xl lg:text-7xl">
+              <h1 className="text-5xl font-extrabold leading-tight text-brand-black sm:text-6xl md:text-7xl">
                 당신의 사업에
                 <br />
                 꼭 필요한 웹서비스
