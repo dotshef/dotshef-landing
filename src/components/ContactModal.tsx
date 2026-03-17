@@ -80,32 +80,26 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
       className="fixed inset-0 m-auto w-full max-w-lg bg-transparent p-4 backdrop:bg-black/30"
       onClick={(e) => e.stopPropagation()}
     >
-      <div className="overflow-hidden rounded-2xl bg-white">
-        {/* Header */}
-        <div className="flex items-center justify-between bg-brand-black px-6 py-4">
-          <h2 className="text-lg font-bold text-white">문의하기</h2>
-          <button
-            type="button"
-            onClick={handleClose}
-            className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-lg bg-brand-black text-xl leading-none text-white transition-colors hover:bg-neutral-800"
-          >
-            &times;
-          </button>
-        </div>
+      <div className="relative rounded-2xl bg-white px-8 py-10">
+        {/* 닫기 */}
+        <button
+          type="button"
+          onClick={handleClose}
+          className="absolute top-5 right-5 flex h-10 w-10 cursor-pointer items-center justify-center rounded-full text-2xl leading-none text-neutral-400 transition-colors hover:text-brand-black hover:bg-neutral-100"
+        >
+          &times;
+        </button>
 
-        {/* Body */}
-        <div className="p-6">
-          {status === "success" ? (
-            <p className="py-8 text-center text-lg font-bold text-brand-black">
-              문의가 전송되었습니다.
-            </p>
-          ) : (
-            <form onSubmit={handleSubmit} className="space-y-4">
-              {/* 이름 */}
+        {status === "success" ? (
+          <p className="py-12 text-center text-lg font-bold text-brand-black">
+            문의가 전송되었습니다.
+          </p>
+        ) : (
+          <>
+            <h2 className="mb-8 text-2xl font-extrabold text-brand-black">문의하기</h2>
+
+            <form onSubmit={handleSubmit} className="space-y-5">
               <div>
-                <label className="mb-1 block text-base font-bold text-brand-black">
-                  이름
-                </label>
                 <input
                   type="text"
                   required
@@ -114,68 +108,58 @@ export default function ContactModal({ open, onClose }: ContactModalProps) {
                   onChange={(e) => setName(e.target.value)}
                   disabled={sending}
                   placeholder="이름"
-                  className="w-full rounded-lg border border-neutral-300 bg-neutral-100 px-4 py-2.5
+                  className="w-full rounded-lg border border-neutral-200 bg-transparent px-4 py-3
                   text-brand-black placeholder:text-neutral-400 focus:outline-none
-                  focus:border-brand-black focus:border-2 disabled:bg-neutral-200 disabled:text-neutral-400"
+                  focus:border-brand-black transition-colors disabled:text-neutral-400"
                 />
               </div>
 
-              {/* 이메일 */}
               <div>
-                <label className="mb-1 block text-base font-bold text-brand-black">
-                  이메일
-                </label>
                 <input
                   type="email"
                   required
                   value={email}
                   onChange={(e) => setEmail(e.target.value)}
                   disabled={sending}
-                  placeholder="example@email.com"
-                  className="w-full rounded-lg border border-neutral-300 bg-neutral-100 px-4 py-2.5
+                  placeholder="이메일"
+                  className="w-full rounded-lg border border-neutral-200 bg-transparent px-4 py-3
                   text-brand-black placeholder:text-neutral-400 focus:outline-none
-                  focus:border-brand-black focus:border-2 disabled:bg-neutral-200 disabled:text-neutral-400"
+                  focus:border-brand-black transition-colors disabled:text-neutral-400"
                 />
               </div>
 
-              {/* 문의 내용 */}
               <div>
-                <label className="mb-1 block text-base font-bold text-brand-black">
-                  문의 내용
-                </label>
                 <textarea
                   required
-                  rows={5}
+                  rows={4}
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
                   disabled={sending}
                   placeholder="문의 내용을 입력해 주세요."
-                  className="w-full resize-none rounded-lg border border-neutral-300 bg-neutral-100 px-4 py-2.5
+                  className="w-full resize-none rounded-lg border border-neutral-200 bg-transparent px-4 py-3
                    text-brand-black placeholder:text-neutral-400 focus:outline-none
-                   focus:border-brand-black focus:border-2 disabled:bg-neutral-200 disabled:text-neutral-400"
+                   focus:border-brand-black transition-colors disabled:text-neutral-400"
                 />
               </div>
 
-              {/* 에러 메시지 */}
               {status === "error" && (
                 <p className="text-sm font-medium text-red-600">
                   전송에 실패했습니다. 다시 시도해 주세요.
                 </p>
               )}
 
-              {/* 제출 버튼 */}
               <button
                 type="submit"
                 disabled={sending}
-                className="w-full rounded-lg bg-brand-black px-4 py-2.5 font-bold
-                text-white transition-colors hover:bg-neutral-800 disabled:bg-neutral-600 disabled:text-neutral-400
+                className="w-full rounded-full bg-brand-black py-3.5 text-base font-bold
+                text-white transition-colors hover:bg-neutral-800 disabled:bg-neutral-300 disabled:text-neutral-500
                 cursor-pointer"
               >
                 {sending ? "전송 중..." : "제출하기"}
               </button>
             </form>
-          )}
-        </div>
+          </>
+        )}
       </div>
     </dialog>
   );
