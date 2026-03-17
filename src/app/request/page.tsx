@@ -50,18 +50,18 @@ export default function RequestPage() {
   const sending = status === "sending"
 
   const inputClass =
-    "w-full rounded-xl border-2 bg-brand-yellow-light px-4 py-3 text-brand-black placeholder:text-brand-black/40 focus:outline-none focus:border-brand-black disabled:opacity-50"
+    "w-full rounded-xl border-2 border-neutral-600 bg-neutral-900 px-4 py-3 text-white placeholder:text-neutral-500 focus:outline-none focus:border-white disabled:bg-neutral-800 disabled:text-neutral-500"
 
   if (status === "success") {
     return (
       <main className="flex min-h-dvh flex-col items-center justify-center bg-brand-black px-6 py-24">
-        <div className="w-full max-w-xl rounded-2xl bg-brand-yellow p-10 text-center">
+        <div className="w-full max-w-xl rounded-2xl bg-white p-10 text-center">
           <p className="text-2xl font-extrabold text-brand-black">견적 요청이 전송됐어요!</p>
-          <p className="mt-3 text-base text-brand-black/70">빠르게 검토 후 연락드리겠습니다.</p>
+          <p className="mt-3 text-base text-neutral-500">빠르게 검토 후 연락드리겠습니다.</p>
           <button
             type="button"
             onClick={() => router.push("/")}
-            className="mt-8 rounded-xl bg-brand-black px-8 py-3 text-base font-bold text-brand-yellow transition-opacity hover:opacity-80 cursor-pointer"
+            className="mt-8 rounded-xl bg-brand-black px-8 py-3 text-base font-bold text-white transition-colors hover:bg-neutral-800 cursor-pointer"
           >
             홈으로 돌아가기
           </button>
@@ -73,14 +73,14 @@ export default function RequestPage() {
   return (
     <main className="flex min-h-dvh flex-col items-center justify-center bg-brand-black px-6 py-24">
       <div className="w-full max-w-xl">
-        <h1 className="mb-8 text-3xl font-extrabold text-brand-yellow">견적 요청하기</h1>
+        <h1 className="mb-8 text-3xl font-extrabold text-white">견적 요청하기</h1>
 
         <form onSubmit={handleSubmit} className="flex flex-col gap-5">
           {/* 이름 + 전화번호 */}
           <div className="flex gap-4">
             <div className="flex-1">
-              <label className="mb-1.5 block text-sm font-bold text-brand-yellow/70">
-                이름 <span className="text-brand-yellow">*</span>
+              <label className="mb-1.5 block text-sm font-bold text-neutral-400">
+                이름 <span className="text-white">*</span>
               </label>
               <input
                 type="text"
@@ -94,7 +94,7 @@ export default function RequestPage() {
               />
             </div>
             <div className="flex-1">
-              <label className="mb-1.5 block text-sm font-bold text-brand-yellow/70">전화번호</label>
+              <label className="mb-1.5 block text-sm font-bold text-neutral-400">전화번호</label>
               <input
                 type="tel"
                 value={phone}
@@ -108,8 +108,8 @@ export default function RequestPage() {
 
           {/* 이메일 (필수) */}
           <div>
-            <label className="mb-1.5 block text-sm font-bold text-brand-yellow/70">
-              이메일 주소 <span className="text-brand-yellow">*</span>
+            <label className="mb-1.5 block text-sm font-bold text-neutral-400">
+              이메일 주소 <span className="text-white">*</span>
             </label>
             <input
               type="email"
@@ -124,8 +124,8 @@ export default function RequestPage() {
 
           {/* 웹사이트 주제 */}
           <div>
-            <label className="mb-1.5 block text-sm font-bold text-brand-yellow/70">
-              웹사이트 주제 <span className="text-brand-yellow">*</span>
+            <label className="mb-1.5 block text-sm font-bold text-neutral-400">
+              웹사이트 주제 <span className="text-white">*</span>
             </label>
             <input
               type="text"
@@ -140,8 +140,8 @@ export default function RequestPage() {
 
           {/* 내용 */}
           <div>
-            <label className="mb-1.5 block text-sm font-bold text-brand-yellow/70">
-              내용 <span className="text-brand-yellow">*</span>
+            <label className="mb-1.5 block text-sm font-bold text-neutral-400">
+              내용 <span className="text-white">*</span>
             </label>
             <textarea
               required
@@ -164,11 +164,11 @@ export default function RequestPage() {
           <button
             type="submit"
             disabled={sending}
-            className="w-full rounded-xl bg-brand-yellow py-4 text-base font-bold text-brand-black
-                       border-2 border-brand-yellow
-                       transition-all duration-300
-                       hover:bg-brand-yellow-action
-                       disabled:opacity-50 cursor-pointer"
+            className="w-full rounded-xl bg-white py-4 text-base font-bold text-brand-black
+                       border-2 border-white
+                       transition-colors duration-300
+                       hover:bg-neutral-200
+                       disabled:bg-neutral-600 disabled:text-neutral-400 disabled:border-neutral-600 cursor-pointer"
           >
             {sending ? "전송 중..." : "견적 요청 보내기"}
           </button>

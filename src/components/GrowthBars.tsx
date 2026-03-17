@@ -27,7 +27,7 @@ const mqServerSnapshot = () => false;
 export default function GrowthBars({
   width = 280,
   height = 200,
-  color = "var(--color-brand-yellow)",
+  color = "var(--color-brand-gray)",
   heights = [0.25, 0.35, 0.55, 0.72, 0.92],
   growMs = 600,
   staggerMs = 140,

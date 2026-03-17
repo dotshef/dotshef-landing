@@ -40,7 +40,7 @@ export function RequestEmailTemplate({
         margin: "0 auto",
         padding: 32,
         backgroundColor: "#ffffff",
-        borderTop: "4px solid #FFD600",
+        borderTop: "4px solid #D1D5DB",
       }}
     >
       <h1 style={{ fontSize: 20, color: "#000000", margin: "0 0 24px" }}>

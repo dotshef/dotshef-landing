@@ -22,8 +22,8 @@ export default function RequestScreen({ answers, onReset }: Props) {
   return (
     <div className="flex flex-col gap-6">
       {/* 결과 표시 */}
-      <div className="rounded-xl border-2 border-brand-yellow bg-brand-yellow px-6 py-8 text-center">
-        <p className="mb-2 text-base font-bold text-brand-black/70">예상 견적</p>
+      <div className="rounded-xl border-2 border-neutral-300 bg-neutral-100 px-6 py-8 text-center">
+        <p className="mb-2 text-base font-bold text-neutral-500">예상 견적</p>
         {hasCustom ? (
           <p className="text-2xl font-extrabold text-brand-black">
             {formatPrice(result.min)} 이상
@@ -33,7 +33,7 @@ export default function RequestScreen({ answers, onReset }: Props) {
             {formatPrice(result.min)} ~ {formatPrice(result.max)}
           </p>
         )}
-        <p className="mt-3 text-sm text-brand-black/90">
+        <p className="mt-3 text-sm text-neutral-600">
           실제 견적은 상담 후 확정됩니다.
         </p>
       </div>
@@ -42,17 +42,17 @@ export default function RequestScreen({ answers, onReset }: Props) {
       <button
         type="button"
         onClick={handleRequest}
-        className="w-full rounded-xl border-2 border-brand-black bg-brand-yellow py-4 text-base font-bold text-brand-black
-                   transition-all hover:bg-brand-black hover:text-brand-yellow cursor-pointer"
+        className="w-full rounded-xl border-2 border-brand-black bg-white py-4 text-base font-bold text-brand-black
+                   transition-colors hover:bg-brand-black hover:text-white cursor-pointer"
       >
         견적 요청하기
       </button>
       <button
         type="button"
         onClick={onReset}
-        className="w-full rounded-full border-2 border-brand-black bg-brand-yellow py-4
-                   text-base font-bold text-brand-black transition-all
-                   hover:bg-brand-black hover:text-brand-yellow cursor-pointer mx-auto block"
+        className="w-full rounded-full border-2 border-brand-black bg-white py-4
+                   text-base font-bold text-brand-black transition-colors
+                   hover:bg-brand-black hover:text-white cursor-pointer mx-auto block"
       >
         다시 견적 계산
       </button>

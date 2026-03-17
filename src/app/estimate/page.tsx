@@ -46,13 +46,13 @@ export default function EstimatePage() {
           {!isResult && (
             <div className="mb-6">
               <div className="mb-2 flex items-center justify-between">
-                <span className="text-xs font-bold text-brand-yellow/50">
+                <span className="text-xs font-bold text-neutral-500">
                   {stepIndex} / {total}
                 </span>
               </div>
-              <div className="h-1 w-full overflow-hidden rounded-full bg-brand-yellow/20">
+              <div className="h-1 w-full overflow-hidden rounded-full bg-neutral-700">
                 <div
-                  className="h-full rounded-full bg-brand-yellow transition-all duration-300"
+                  className="h-full rounded-full bg-white transition-all duration-300"
                   style={{ width: `${Math.min((stepIndex / total) * 100, 100)}%` }}
                 />
               </div>
@@ -60,7 +60,7 @@ export default function EstimatePage() {
           )}
 
           {/* 카드 */}
-          <div className="rounded-2xl bg-brand-yellow p-14">
+          <div className="rounded-2xl bg-white p-14">
             {isResult ? (
               <>
                 <h2 className="mb-6 text-2xl font-extrabold text-brand-black">
@@ -76,7 +76,7 @@ export default function EstimatePage() {
                       {step.question}
                     </h2>
                     {step.comment && (
-                      <p className="mt-2 text-base text-brand-black/60">{step.comment}</p>
+                      <p className="mt-2 text-base text-neutral-500">{step.comment}</p>
                     )}
                   </div>
                   <StepRenderer

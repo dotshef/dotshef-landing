@@ -1,9 +1,9 @@
 @import "tailwindcss";
 
 @theme inline {
-  --color-brand-yellow: #FFD600;
-  --color-brand-yellow-light: #ffdf3b;
-  --color-brand-yellow-action: #fae99b;
+  --color-brand-gray: #D1D5DB;
+  --color-brand-gray-light: #F3F4F6;
+  --color-brand-gray-action: #B0B5BC;
   --color-brand-black: #000000;
 }
 

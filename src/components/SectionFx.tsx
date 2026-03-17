@@ -1,9 +1,9 @@
 interface SectionFxProps {
-  variant: "yellow" | "black" | "white";
+  variant: "white" | "black";
 }
 
 export default function SectionFx({ variant }: SectionFxProps) {
-  const dotColor = variant === "white" ? "#000000" : variant === "yellow" ? "#000000" : "#FFD600";
+  const dotColor = variant === "white" ? "#000000" : "#D1D5DB";
   const dotOpacity = 0.07;
   const shadowOpacity = 0.04;
   const patternId = `dots-${variant}`;

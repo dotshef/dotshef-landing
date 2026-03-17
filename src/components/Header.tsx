@@ -28,9 +28,9 @@ export default function Header() {
             <button
               type="button"
               onClick={() => setModalOpen(true)}
-              className="border-2 border-brand-yellow px-4 py-2 text-base font-bold text-brand-yellow
+              className="border-2 border-white px-4 py-2 text-base font-bold text-white
               rounded-lg
-              transition-colors hover:bg-brand-yellow hover:text-brand-black cursor-pointer"
+              transition-colors hover:bg-white hover:text-brand-black cursor-pointer"
             >
               문의하기
             </button>

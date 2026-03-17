@@ -1,11 +1,16 @@
-import Link from "next/link";
+"use client";
+
+import { useState } from "react";
 import SectionFx from "@/components/SectionFx";
 import BlockStack from "@/components/BlockStack";
 import GrowthBars from "@/components/GrowthBars";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
+import RequestModal from "@/components/RequestModal";
 
 export default function Home() {
+  const [requestOpen, setRequestOpen] = useState(false);
+
   return (
     <>
       <Header />
@@ -41,17 +46,20 @@ export default function Home() {
 
             {/* 버튼 */}
             <div className="flex gap-4">
-              <Link
-                href="/request"
-                className="rounded-xl border-2 border-brand-black px-8 py-4 text-base font-bold text-brand-black transition-all duration-300 hover:bg-brand-black hover:text-white"
+              <button
+                type="button"
+                onClick={() => setRequestOpen(true)}
+                className="rounded-xl border-2 border-brand-black px-8 py-4 text-base font-bold text-brand-black transition-colors duration-300 hover:bg-brand-black hover:text-white cursor-pointer"
               >
                 견적 요청하기
-              </Link>
+              </button>
             </div>
           </div>
         </section>
       </main>
       <Footer />
+
+      <RequestModal open={requestOpen} onClose={() => setRequestOpen(false)} />
     </>
   );
 }

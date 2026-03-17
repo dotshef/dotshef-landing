@@ -1,6 +1,6 @@
 export default function Footer() {
   return (
-    <footer className="bg-brand-black px-6 py-12 text-white/70">
+    <footer className="bg-brand-black px-6 py-12 text-neutral-400">
       <div className="mx-auto max-w-7xl space-y-1 text-center text-sm leading-relaxed">
         <p>
           <strong className="text-white">상호:</strong> 닷셰프
@@ -15,7 +15,7 @@ export default function Footer() {
           <strong className="text-white">이메일:</strong>{" "}
           <a
             href="mailto:contact@dotshef.com"
-            className="text-brand-yellow underline underline-offset-2"
+            className="text-white underline underline-offset-2"
           >
             contact@dotshef.com
           </a>
