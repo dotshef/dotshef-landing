@@ -21,8 +21,7 @@ export default function Footer() {
           </a>
         </p>
         <p>
-          <strong>주소:</strong> 서울특별시 영등포구 영등포로 150, 지하1층
-          가라지 204호
+          <strong>주소:</strong> 경기도 수원시 수정구 창업로 43, 업무동 1층 61호
         </p>
       </div>
     </footer>
