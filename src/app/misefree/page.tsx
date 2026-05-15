@@ -78,16 +78,23 @@ function HeroSection() {
       />
       <div className="relative mx-auto flex w-full max-w-4xl flex-col items-center gap-12 md:flex-row md:justify-between">
         <div className="text-center md:text-left">
-          <h1 className="text-5xl font-extrabold text-white sm:text-6xl md:text-7xl">
+          <Image
+            src="/image/misefree/icon.png"
+            alt=""
+            width={512}
+            height={512}
+            className="mx-auto h-20 w-20 rounded-2xl shadow-lg md:mx-0 sm:h-24 sm:w-24"
+          />
+          <h1 className="mt-6 text-5xl font-extrabold text-white sm:text-6xl md:text-7xl">
             미세프리
           </h1>
-          <p className="mt-6 text-lg font-semibold text-white/85 sm:text-2xl">
+          <p className="mt-6 text-2xl font-semibold text-white/85 sm:text-3xl">
             광고없는 미세먼지 앱
           </p>
           <p className="mt-6 text-base text-white/85 sm:text-lg">
             한국환경공단 에어코리아 공식 데이터로,
-            <br className="hidden sm:block" />
-            {" "}지금 내 위치의 대기질을 3초 안에.
+            <br />
+            지금 내 위치의 대기질을 3초 안에.
           </p>
           <div className="mt-10 flex justify-center md:justify-start">
             <DownloadButton />
@@ -137,7 +144,7 @@ function CtaSection() {
 
 function DifferentiatorCard({ item }: { item: Differentiator }) {
   return (
-    <article className="flex flex-col gap-5 bg-white p-10 shadow-xl">
+    <article className="flex flex-col gap-5 rounded-md bg-white p-10 shadow-xl">
       <span
         className="w-fit rounded-full px-4 py-1.5 text-sm font-bold text-white"
         style={{ backgroundColor: item.accent }}
@@ -172,7 +179,7 @@ function DownloadButton() {
 
 function GradeImageGrid() {
   return (
-    <div className="grid w-full max-w-lg shrink-0 grid-cols-2 gap-4">
+    <div className="grid w-full max-w-lg shrink-0 grid-cols-2">
       {GRADE_IMAGES.map((item, i) => (
         <Image
           key={item.src}
