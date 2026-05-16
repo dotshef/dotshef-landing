@@ -25,6 +25,20 @@ export default function Header() {
             </span>
           </Link>
           <div className="flex items-center gap-3">
+            <Link
+              href="/"
+              className="px-4 py-2 text-base font-bold text-white
+              transition-colors hover:text-white/70"
+            >
+              홈
+            </Link>
+            <Link
+              href="/misefree"
+              className="px-4 py-2 text-base font-bold text-white
+              transition-colors hover:text-white/70"
+            >
+              미세프리
+            </Link>
             <button
               type="button"
               onClick={() => setModalOpen(true)}
