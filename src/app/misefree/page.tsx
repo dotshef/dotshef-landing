@@ -12,7 +12,8 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://dotshef.com/misefree" },
 };
 
-const GOOGLE_PLAY_URL = "#";
+const GOOGLE_PLAY_URL =
+  "https://play.google.com/store/apps/details?id=com.dotshef.misefree";
 
 type Differentiator = {
   accent: string;
@@ -163,6 +164,8 @@ function DownloadButton() {
   return (
     <a
       href={GOOGLE_PLAY_URL}
+      target="_blank"
+      rel="noopener noreferrer"
       className="inline-flex items-center gap-3 rounded-xl bg-white px-7 py-4 text-lg font-bold text-brand-black shadow-lg"
     >
       <Image
