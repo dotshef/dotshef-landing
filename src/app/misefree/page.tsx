@@ -84,7 +84,7 @@ function HeroSection() {
   return (
     <section className="flex min-h-dvh items-center px-6 py-32">
       <div className="mx-auto flex w-full max-w-4xl flex-col items-center gap-12 md:flex-row md:justify-between">
-        <RevealStagger className="text-center md:text-left">
+        <div className="text-center md:text-left">
           <Image
             src="/image/misefree/icon.png"
             alt=""
@@ -106,7 +106,7 @@ function HeroSection() {
           <div className="mt-10 flex justify-center md:justify-start">
             <DownloadButton />
           </div>
-        </RevealStagger>
+        </div>
         <GradeImageGrid />
       </div>
     </section>
@@ -127,7 +127,7 @@ function FeaturesSection() {
 
 function CtaSection() {
   return (
-    <section className="flex flex-col items-center px-6 py-24 text-center">
+    <section className="flex flex-col items-center gap-12 px-6 py-24 text-center">
       <RevealStagger className="flex flex-col items-center gap-12">
         <h2 className="text-4xl font-extrabold text-[#333d4b] sm:text-5xl md:text-6xl">
           외출하기 전 1초가
@@ -139,14 +139,14 @@ function CtaSection() {
           <br />
           후원 여부와 무관하게 모든 기능을 동일하게 사용할 수 있습니다.
         </p>
-        <DownloadButton />
-        <Link
-          href="/misefree/privacy"
-          className="text-sm text-gray-500 underline hover:text-brand-black"
-        >
-          개인정보 처리방침
-        </Link>
       </RevealStagger>
+      <DownloadButton />
+      <Link
+        href="/misefree/privacy"
+        className="text-sm text-gray-500 underline hover:text-brand-black"
+      >
+        개인정보 처리방침
+      </Link>
     </section>
   );
 }
@@ -200,11 +200,7 @@ function DownloadButton() {
 
 function GradeImageGrid() {
   return (
-    <RevealStagger
-      stagger={0.08}
-      delay={0.2}
-      className="grid w-full max-w-lg shrink-0 grid-cols-2"
-    >
+    <div className="grid w-full max-w-lg shrink-0 grid-cols-2">
       {GRADE_IMAGES.map((item, i) => (
         <Image
           key={item.src}
@@ -216,6 +212,6 @@ function GradeImageGrid() {
           className="w-full shadow-xl"
         />
       ))}
-    </RevealStagger>
+    </div>
   );
 }
