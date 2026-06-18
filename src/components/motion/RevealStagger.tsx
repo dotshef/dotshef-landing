@@ -47,12 +47,14 @@ export default function RevealStagger({
           ease: "power3.out",
           scrollTrigger: {
             trigger: el,
-            start: "top 85%",
+            start: "top 95%",
             toggleActions: "play none none none",
           },
         }
       );
     });
+
+    ScrollTrigger.refresh();
 
     return () => ctx.revert();
   }, [delay, y, duration, stagger]);
